@@ -61,7 +61,7 @@ export default {
 </script>
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Dancing Script", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -100,6 +100,7 @@ nav {
   font-family: "Dancing Script", cursive;
 }
 .main-recipes-container {
+  display: -ms-flex; display: -webkit-flex;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -108,7 +109,6 @@ nav {
   width: 100%;
   margin-top: 30px;
 }
-
 .left-side-recipes {
   display: flex;
   flex-wrap: wrap;
@@ -116,24 +116,26 @@ nav {
   align-items: left;
   background-color: #77a9db;
   width: 38%;
-  height: 200px;
   align-content: flex-start;
   margin-right: 10px;
   padding: 10px;
   border-radius: 10px;
+  height: 300px;
+  overflow: auto;
 }
 .rightsiderecipes {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: left;
   background-color: #5bc9c3;
-  height: 200px;
   align-content: flex-start;
   max-width: 60%;
   width: 56%;
   padding: 10px;
   border-radius: 10px;
+  height: 300px;
+  overflow: auto;
 }
 .notChecked{
   display: none;
