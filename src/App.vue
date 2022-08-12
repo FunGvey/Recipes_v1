@@ -8,15 +8,13 @@
     <div class="main-recipes-container">
       <div class="left-side-recipes">
         <ul>
-          <li :class="{ recipe: true, checked: todos[idx].checked }" v-for="(todo, idx) in todos" :key="todo.id">
+          <li :class="{ recipe: true, checked: todos[idx].checked }" v-for="(todo, idx) in todos" :key="todo.id" @click="check(idx)">
             {{ todo.text }}
-            <button @click="removeTodo(idx)">X</button>
-            <button @click="check(idx)">Y</button>
           </li>
         </ul>
       </div>
       <div :class=" [todo.checked ? checkedClass : 'notChecked'] " v-for="todo in todos" :key="todo.id">
-          <span v-if="todo.checked">Отмеченные имена: {{ todo.id }}</span>
+          <span v-if="todo.checked">{{ todo.description }}</span>
       </div>
     </div>
   </div>
@@ -38,9 +36,9 @@ export default {
       notChecked: 'notChecked',
       newTodo: "",
       todos: [
-        { id: id++, text: "123", checked: false },
-        { id: id++, text: "134", checked: false },
-        { id: id++, text: "156", checked: false },
+        { id: id++, text: "Рецепт 1", checked: false, description: "Тут будет описание у первого рецепта"},
+        { id: id++, text: "Рецепт 2", checked: false, description: "Тут будет описание у второго рецепта"},
+        { id: id++, text: "Рецепт 3", checked: false, description: "Тут будет описание у третьего рецепта"},
       ],
     };
   },
@@ -53,7 +51,6 @@ export default {
         this.todos = this.todos.filter(x => x.id !== idx);
       },
       check(idx) {
-        console.log(idx)
         this.todos[idx].checked = !this.todos[idx].checked;
         for(let i = 0; i < this.todos.length; i++) {
           if(this.todos[i].id!=idx) {this.todos[i].checked = false;}
@@ -156,6 +153,7 @@ ul {
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .checked {
