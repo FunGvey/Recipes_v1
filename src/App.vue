@@ -2,62 +2,69 @@
   <nav>
     <router-link to="/">Main</router-link>
   </nav>
-  <router-view/>
+  <router-view />
   <div class="main-recipes">
     <h1>Recipes</h1>
-      <div class="main-recipes-container">
-        <div class="left-side-recipes">
-          <ul>
-            <li class="recipe" v-for="todo in todos" :key="todo.id" >
-              {{ todo.text }}
-              <button @click="removeTodo(todo)">X</button>
-              <button @click="check(todo)">Y</button>
-            </li>
-          </ul>
-        </div>
-        <div class="right-side-recipes" v-for="todo in limitArray(todos)" :key="todo.id">
-          <span v-if="todo.checked">Отмеченные имена: {{ todo.checked }}</span>
-        </div>
+    <div class="main-recipes-container">
+      <div class="left-side-recipes">
+        <ul>
+          <li :class="{ recipe: true, checked: todos[idx].checked }" v-for="(todo, idx) in todos" :key="todo.id">
+            {{ todo.text }}
+            <button @click="removeTodo(idx)">X</button>
+            <button @click="check(idx)">Y</button>
+          </li>
+        </ul>
       </div>
+      <div
+        class="right-side-recipes"
+        v-for="todo in limitArray(todos)"
+        :key="todo.id"
+      >
+        <span v-if="todo.checked">Отмеченные имена: {{ todo.checked }}</span>
+      </div>
+    </div>
   </div>
-    <form @submit.prevent="addTodo">
-      <input v-model="newTodo">
-    <button>Add Todo</button>    
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo" />
+    <button>Add Todo</button>
   </form>
 </template>
 <script>
+import { throwStatement } from '@babel/types';
+
 // give each todo a unique id
-let id = 0
+let id = 0;
 
 export default {
   data() {
-
     return {
-      newTodo: '',
+      newTodo: "",
       todos: [
-        { id: id++, text: '123', checked: false},
-        { id: id++, text: '134', checked: false},
-        { id: id++, text: '156', checked: false}
-      ]
-    }
+        { id: id++, text: "123", checked: false },
+        { id: id++, text: "134", checked: false },
+        { id: id++, text: "156", checked: false },
+      ],
+    };
   },
   methods: {
     addTodo() {
-      this.todos.push({ id: id++, text: this.newTodo })
-      this.newTodo = ''
+      this.todos.push({ id: id++, text: this.newTodo });
+      this.newTodo = "";
     },
-    removeTodo(todo) {
-      this.todos = this.todos.filter((t) => t !== todo)
+    removeTodo(idx) {
+      this.todos = this.todos.filter(x => x.id !== idx);
     },
-    limitArray(todo){
-      if (todo.checked == true){return todo}
+    limitArray(todo) {
+      if (todo.checked == true) {
+        return todo;
+      }
     },
-    check()
-    {
-      this.checked = !this.checked
-    }
-  }
-}
+    check(idx) {
+      console.log(idx)
+      this.todos[idx].checked = !this.todos[idx].checked
+    },
+  },
+};
 </script>
 <style lang="scss">
 #app {
@@ -80,29 +87,27 @@ nav {
     }
   }
 }
-.main-recipes
-{
+.main-recipes {
   width: 50%;
   height: 100%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background-color: #2c3e50;
   border-radius: 15px;
   padding: 15px;
 }
-.main-recipes h1{
+.main-recipes h1 {
   font-size: 24px;
   color: white;
   margin: 0 auto;
-  font-family: 'Dancing Script', cursive;
+  font-family: "Dancing Script", cursive;
 }
-.main-recipes-container
-{
-  display: flex; 
+.main-recipes-container {
+  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
@@ -111,7 +116,7 @@ nav {
   margin-top: 30px;
 }
 
-.left-side-recipes{
+.left-side-recipes {
   display: flex;
   flex-wrap: wrap;
   //justify-content: space-between;
@@ -122,9 +127,9 @@ nav {
   align-content: flex-start;
   margin-right: 10px;
   padding: 10px;
-    border-radius: 10px;
+  border-radius: 10px;
 }
-.right-side-recipes{
+.right-side-recipes {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -134,15 +139,15 @@ nav {
   align-content: flex-start;
   max-width: 60%;
   width: 56%;
-    padding: 10px;
-      border-radius: 10px;
+  padding: 10px;
+  border-radius: 10px;
 }
-ul{
+ul {
   list-style-type: none;
   width: 100%;
   padding: 0;
 }
-.recipe{
+.recipe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -152,5 +157,9 @@ ul{
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
+}
+
+.checked {
+  background-color: red;
 }
 </style>
