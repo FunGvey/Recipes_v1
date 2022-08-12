@@ -15,12 +15,8 @@
           </li>
         </ul>
       </div>
-      <div
-        class="right-side-recipes"
-        v-for="todo in limitArray(todos)"
-        :key="todo.id"
-      >
-        <span v-if="todo.checked">Отмеченные имена: {{ todo.checked }}</span>
+      <div :class=" [todo.checked ? checkedClass : 'notChecked'] " v-for="todo in todos" :key="todo.id">
+          <span v-if="todo.checked">Отмеченные имена: {{ todo.id }}</span>
       </div>
     </div>
   </div>
@@ -38,6 +34,8 @@ let id = 0;
 export default {
   data() {
     return {
+      checkedClass: 'rightsiderecipes',
+      notChecked: 'notChecked',
       newTodo: "",
       todos: [
         { id: id++, text: "123", checked: false },
@@ -47,24 +45,22 @@ export default {
     };
   },
   methods: {
-    addTodo() {
-      this.todos.push({ id: id++, text: this.newTodo });
-      this.newTodo = "";
-    },
-    removeTodo(idx) {
-      this.todos = this.todos.filter(x => x.id !== idx);
-    },
-    limitArray(todo) {
-      if (todo.checked == true) {
-        return todo;
+      addTodo() {
+        this.todos.push({ id: id++, text: this.newTodo });
+        this.newTodo = "";
+      },
+      removeTodo(idx) {
+        this.todos = this.todos.filter(x => x.id !== idx);
+      },
+      check(idx) {
+        console.log(idx)
+        this.todos[idx].checked = !this.todos[idx].checked;
+        for(let i = 0; i < this.todos.length; i++) {
+          if(this.todos[i].id!=idx) {this.todos[i].checked = false;}
       }
     },
-    check(idx) {
-      console.log(idx)
-      this.todos[idx].checked = !this.todos[idx].checked
-    },
-  },
-};
+  }
+}
 </script>
 <style lang="scss">
 #app {
@@ -129,7 +125,7 @@ nav {
   padding: 10px;
   border-radius: 10px;
 }
-.right-side-recipes {
+.rightsiderecipes {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -141,6 +137,9 @@ nav {
   width: 56%;
   padding: 10px;
   border-radius: 10px;
+}
+.notChecked{
+  display: none;
 }
 ul {
   list-style-type: none;
